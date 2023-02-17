@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const db = require('../config/mongodb');
-const fs = require('fs');
+const bodyParser = require('body-parser');
 const Product = require('./model');
 const path = require('path');
 
@@ -22,10 +22,15 @@ const readById = async (req, res, next) => {
     }
 }
 
-const create = async (req, res, next) => {
-    const product = new Product(req.body);
+const store = async (req, res, next) => {
+    const {name, price, stock, status} = req.body;
     try {
-        const createdProduct = await product.save();
+        const createdProduct = await Product.create({
+            name: name,
+            price: price,
+            stock: stock,
+            status: status
+        });
         res.json(createdProduct);
     } catch (error) {
         res.json({message: error.message});
@@ -54,7 +59,7 @@ const destroy = async (req, res, next) => {
 module.exports = {
     read,
     readById,
-    create,
+    store,
     update,
     destroy
 }

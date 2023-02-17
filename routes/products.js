@@ -7,7 +7,7 @@ const fs = require('fs');
 const Product = require('./model');
 const productController = require('./controller');
 
-router.post('/', productController.create);
+router.post('/', productController.store);
 
 router.get('/', productController.read);
 
